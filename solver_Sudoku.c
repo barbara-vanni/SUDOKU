@@ -14,7 +14,7 @@ int solver(sudoku *sudoku_tab)
 
     for (int n = 0; n < 9; n++)
     {
-        if (test_chiffre(sudoku_tab->range[n], sudoku_tab, x, y) == TRUE)
+        if (test_chiffre(sudoku_tab->range[n], sudoku_tab->grid, x, y) == TRUE)
         {
            sudoku_tab->grid[x][y] = sudoku_tab->range[n];
 

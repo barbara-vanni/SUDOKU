@@ -29,7 +29,7 @@ int segment(sudoku *sudoku_tab)
                     {
                         for (int y = _j; y < _j + 3; y++)
                         {
-                            if (sudoku_tab->gridass[x][y][n - 1] == 1)
+                            if (sudoku_tab->gridass[x][y][n - 1] == TRUE)
                             {
                                 cube_Lsegment[x % 3]++;
                                 cube_Csegment[y % 3]++;

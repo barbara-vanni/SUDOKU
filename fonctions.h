@@ -16,7 +16,7 @@ typedef struct s_sudoku
 */
 int case_vide(int grid[9][9], int *x, int *y);
 
-int test_chiffre(int n, sudoku *sudoku_tab, int x, int y);
+int test_chiffre(int n, int grid[9][9], int x, int y);
 
 int solver(sudoku *sudoku_tab);
 
@@ -33,6 +33,8 @@ int celib_nu (sudoku *sudoku_tab);
 int celib_cache (sudoku *sudoku_tab);
 
 int segment (sudoku *sudoku_tab);
+
+int segment_2(sudoku *sudoku_tab);
 
 
 #endif

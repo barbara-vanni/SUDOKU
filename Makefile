@@ -12,6 +12,7 @@ SRCS := mainu.c \
 	celib_nu.c \
 	celib_cache.c \
 	segment.c \
+	segment_2.c \
 
 OBJS := $(SRCS:.c=.o)
 

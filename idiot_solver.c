@@ -15,6 +15,7 @@ int idiot_solver(sudoku *sudoku_tab)
         running = 0;
         segments = 0;
         segments += segment(sudoku_tab);
+        segments += segment_2(sudoku_tab);
         running += celib_nu(sudoku_tab);
         running += celib_cache(sudoku_tab);
         if (running != 0)

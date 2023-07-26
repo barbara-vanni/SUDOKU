@@ -43,7 +43,7 @@ int main(int ac, char **av)
     }
     shuffle_range(&sudoku_tab);
     solver(&sudoku_tab);
-    remove_numbers(&sudoku_tab, 82);
+    remove_numbers(&sudoku_tab, 150);
     
     for (int j = 0; j < 9; j++)
     {

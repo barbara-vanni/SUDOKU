@@ -11,7 +11,7 @@ int gridass (sudoku *sudoku_tab)
             {
                 for (int n = 1; n < 10; n++)
                 {
-                    if (test_chiffre(n, sudoku_tab, i, j) == TRUE)
+                    if (test_chiffre(n, sudoku_tab->gridClone, i, j) == TRUE)
                     {
                         sudoku_tab->gridass[i][j][n-1] = TRUE;
                     }
