@@ -26,9 +26,6 @@ int main(int ac, char **av)
     int j = 0;
     srand(time(NULL));
     initGraphics(&sudoku_tab);
-    mainloop(&sudoku_tab);
-    init_grid_surface(&sudoku_tab);
-    quitGraphics(&sudoku_tab);
 
 
     while (fgets(line, sizeof(line), file))
@@ -47,6 +44,7 @@ int main(int ac, char **av)
     solver(&sudoku_tab);
     remove_numbers(&sudoku_tab, 150);
     
+    mainloop(&sudoku_tab);
     for (int j = 0; j < 9; j++)
     {
         for (int i = 0; i < 9; i++)
@@ -56,6 +54,7 @@ int main(int ac, char **av)
         printf("\n");
     }
 
+    quitGraphics(&sudoku_tab);
     return 0;
 }
 
