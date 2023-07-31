@@ -2,8 +2,21 @@
 #include "fonctions.h"
 #include "strsplit.h"
 #include <stdio.h>
+#include <time.h>
+
+int num_grid(sudoku *sudoku_tab, int num)
+{
+	sudoku_tab->grid[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] = num;
+	if (grille_valid(sudoku_tab) == TRUE)
+	{
+		// printf("nickel\n");
+		sudoku_tab->finish = TRUE;
+	}
+}
+
 int mainloop(sudoku *sudoku_tab)
 {
+
 	SDL_Event events;
 	int quit = 0;
 
@@ -28,34 +41,44 @@ int mainloop(sudoku *sudoku_tab)
 				{
 					if (sudoku_tab->grid[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] == 0)
 					{
-						sudoku_tab->grid[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] = events.key.keysym.sym - SDLK_0;
+						num_grid(sudoku_tab, events.key.keysym.sym - SDLK_0);
 					}
 				}
 				else if (events.key.keysym.sym >= 1073741913 && events.key.keysym.sym <= 1073741921)
 				{
 					if (sudoku_tab->grid[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] == 0)
 					{
-						sudoku_tab->grid[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] = events.key.keysym.sym - 1073741912;
+						num_grid(sudoku_tab, events.key.keysym.sym - 1073741912);
 					}
 				}
 				else if (events.key.keysym.sym == SDLK_DELETE || events.key.keysym.sym == SDLK_BACKSPACE)
 				{
-					sudoku_tab->grid[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] = 0;
+					if (sudoku_tab->gridClone[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] == 0)
+					{
+						sudoku_tab->grid[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] = 0;
+					}
 				}
+
+				else if (events.key.keysym.sym == SDLK_SPACE)
+				{
+					init_sudoku(sudoku_tab);
+				}
+
 				break;
 			}
 		}
-		// SDL_SetRenderDrawColor(sudoku_tab->renderer, 255, 255, 255, 255);
+		SDL_SetRenderDrawColor(sudoku_tab->renderer, 255, 255, 255, 255);
 		SDL_RenderClear(sudoku_tab->renderer);
-		SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->gridTexture, NULL, NULL);
+		const SDL_Rect rerect = {0, 0, GRID_SIZE, GRID_SIZE};
+		SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->gridTexture, &rerect, &rerect);
 		for (int x = 0; x < 9; x++)
 		{
 			for (int y = 0; y < 9; y++)
 			{
-				if (x == sudoku_tab->selectedCellX && y == sudoku_tab->selectedCellY)
+				if (y == sudoku_tab->selectedCellX && x == sudoku_tab->selectedCellY)
 				{
 					SDL_SetRenderDrawColor(sudoku_tab->renderer, 100, 100, 100, 255);
-					SDL_Rect mini_rect = {x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE};
+					SDL_Rect mini_rect = {y * CELL_SIZE, x * CELL_SIZE, CELL_SIZE, CELL_SIZE};
 					SDL_RenderFillRect(sudoku_tab->renderer, &mini_rect);
 				}
 				if (sudoku_tab->grid[x][y] != 0)
@@ -65,6 +88,35 @@ int mainloop(sudoku *sudoku_tab)
 				}
 			}
 		}
+
+		if (sudoku_tab->finish == FALSE)
+		{
+			sudoku_tab->time_deux = time(NULL);
+			unsigned long long int t = difftime(sudoku_tab->time_deux, sudoku_tab->time);
+			// printf("%s \r", asctime(gmtime(&t)));
+			struct tm *time_info;
+			char timeString[9];
+
+			time_info = localtime(&t);
+			strftime(timeString, sizeof(timeString), "%M:%S", time_info);
+			SDL_Surface *timer_Surface = TTF_RenderText_Blended(sudoku_tab->font, timeString, (SDL_Color){255, 0, 0, 255});
+			SDL_Texture *timer_Texture = SDL_CreateTextureFromSurface(sudoku_tab->renderer, timer_Surface);
+    		
+			SDL_Rect timerrect = {GRID_SIZE + CELL_MARGIN, CELL_MARGIN, MENU_SIZE - CELL_MARGIN*2, FONT_SIZE * 2};
+			SDL_RenderCopy(sudoku_tab->renderer, timer_Texture, NULL, &timerrect);
+
+			SDL_FreeSurface(timer_Surface);
+			SDL_DestroyTexture(timer_Texture);
+
+			printf("%s \r", timeString);
+		}
+
+		if (sudoku_tab->finish == TRUE)
+		{
+			SDL_Rect rect = {0, GRID_SIZE / 2 - FONT_SIZE / 2, GRID_SIZE, FONT_SIZE * 2};
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->victoire, NULL, &rect);
+		}
+
 		SDL_RenderPresent(sudoku_tab->renderer);
 
 		// SDL_Rect rectangle = {WINDOW_WIDTH/2, WINDOW_HEIGHT/2, 300, 100};

@@ -40,9 +40,7 @@ int main(int ac, char **av)
         free(tab);
         j++;
     }
-    shuffle_range(&sudoku_tab);
-    solver(&sudoku_tab);
-    remove_numbers(&sudoku_tab, 150);
+
     
     mainloop(&sudoku_tab);
     for (int j = 0; j < 9; j++)

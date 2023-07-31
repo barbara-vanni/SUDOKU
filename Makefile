@@ -27,6 +27,7 @@ SRCS_RAW := mainu.c \
 		segment_2.c \
 		graphics_init.c \
 		game_loop.c \
+		init_sudoku.c \
 
 SRCS := $(addprefix $(SRCS_FOLDER)/, $(SRCS_RAW))
 OBJS := $(SRCS:$(SRCS_FOLDER)/%.c=$(OBJS_FOLDER)/%.o)

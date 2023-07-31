@@ -43,6 +43,7 @@ void font_police(sudoku *sudoku_tab)
 {
     TTF_Font *font = TTF_OpenFont("Montserrat-BoldItalic.ttf", FONT_SIZE);
 
+
     for (int d = 0; d < 9; d++)
     {
         char string[2];
@@ -56,23 +57,33 @@ void font_police(sudoku *sudoku_tab)
     TTF_CloseFont(font);
 }
 
+void message_victoire(sudoku *sudoku_tab)
+{
+    SDL_Surface *text_mess = TTF_RenderText_Blended(sudoku_tab->font, "BRAVO!", (SDL_Color){255, 0, 0, 255});
+    sudoku_tab->victoire = SDL_CreateTextureFromSurface(sudoku_tab->renderer, text_mess);
+    SDL_FreeSurface(text_mess);
+}
+
 void initGraphics(sudoku *sudoku_tab)
 {
     SDL_Init(SDL_INIT_VIDEO);
     TTF_Init();
+    sudoku_tab->font = TTF_OpenFont("Montserrat-ExtraBold.ttf", FONT_SIZE * 2);
     sudoku_tab->window = SDL_CreateWindow("sudoku", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
     sudoku_tab->renderer = SDL_CreateRenderer(sudoku_tab->window, -1, SDL_RENDERER_ACCELERATED);
     init_grid_surface(sudoku_tab);
     font_police(sudoku_tab);
+    message_victoire(sudoku_tab);
 }
 
 void quitGraphics(sudoku *sudoku_tab)
 {
-    SDL_DestroyRenderer(sudoku_tab->renderer);
-    SDL_DestroyWindow(sudoku_tab->window);
+    TTF_CloseFont(sudoku_tab->font);
     SDL_DestroyTexture(sudoku_tab->gridTexture);
     for (int i = 0; i < 9; i++)
         SDL_DestroyTexture(sudoku_tab->cellTextures[i]);
+    SDL_DestroyRenderer(sudoku_tab->renderer);
+    SDL_DestroyWindow(sudoku_tab->window);
     TTF_Quit();
     SDL_Quit();
 }
