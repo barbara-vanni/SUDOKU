@@ -4,19 +4,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <time.h>
-
-#define CELL_SIZE 80
-#define CELL_MARGIN 6
-#define GRID_SIZE (CELL_SIZE * 9)
-#define FONT_SIZE (CELL_SIZE - CELL_MARGIN * 2)
-#define MENU_SIZE (CELL_SIZE * 3)
-#define WINDOW_WIDTH (GRID_SIZE + MENU_SIZE)
-#define WINDOW_HEIGHT (GRID_SIZE)
+#include <SDL2/SDL_image.h>
 
 typedef struct s_sudoku
 {
     SDL_Window *window;
     SDL_Renderer *renderer;
+    SDL_Texture *button_start;
+    SDL_Texture *button_finish;
     SDL_Texture *gridTexture;
     SDL_Texture *cellTextures[9];
     SDL_Texture *victoire;
@@ -29,6 +24,7 @@ typedef struct s_sudoku
     int gridvalid[9][9];
     int gridass[9][9][9];
 
+    int running;
     int selectedCellX;
     int selectedCellY;
     int millisec;
@@ -75,5 +71,9 @@ int init_sudoku(sudoku *sudoku_tab);
 int grille_valid(sudoku *sudoku_tab);
 
 int num_grid(sudoku *sudoku_tab, int num);
+
+void button_start(sudoku *sudoku_tab);
+
+void button_finish(sudoku *sudoku_tab);
 
 #endif

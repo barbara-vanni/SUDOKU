@@ -39,7 +39,7 @@ PREREQUISITES := $(wildcard $(PREREQUISITES_FOLDER)/*.c)
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $(BIN_FOLDER)/$@ $^ -lSDL2 -lSDL2_ttf
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $(BIN_FOLDER)/$@ $^ -lSDL2 -lSDL2_ttf -lSDL2_image
 
 $(OBJS_FOLDER)/%.o: $(SRCS_FOLDER)/%.c | $(OBJS_FOLDER)
 	$(CC) $(CFLAGS) -c $< -o $@ -MMD -MF $(@:.o=.d)

@@ -7,6 +7,7 @@
 int init_sudoku(sudoku *sudoku_tab)
 {
     sudoku_tab->time = time(NULL);
+    sudoku_tab->running = TRUE;
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 9; j++)

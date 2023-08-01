@@ -1,6 +1,8 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "fonctions.h"
 #include "strsplit.h"
+#include "display.h"
 #include <stdio.h>
 #include <time.h>
 
@@ -35,6 +37,18 @@ int mainloop(sudoku *sudoku_tab)
 				sudoku_tab->selectedCellX = x / CELL_SIZE;
 				sudoku_tab->selectedCellY = y / CELL_SIZE;
 				break;
+			case SDL_MOUSEBUTTONDOWN:
+				if (events.button.button == SDL_BUTTON_LEFT)
+				{
+					const SDL_Point click = {events.motion.x,events.motion.y};
+					const SDL_Rect butt = {WINDOW_WIDTH - MENU_SIZE / 2 - BUTTON_WIDTH / 2, GRID_SIZE - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT};
+
+					if (SDL_PointInRect(&click, &butt) == SDL_TRUE)
+					{
+						init_sudoku(sudoku_tab);
+					}
+				}
+				break;
 
 			case SDL_KEYDOWN:
 				if (events.key.keysym.sym >= SDLK_1 && events.key.keysym.sym <= SDLK_9)
@@ -67,8 +81,12 @@ int mainloop(sudoku *sudoku_tab)
 				break;
 			}
 		}
+
 		SDL_SetRenderDrawColor(sudoku_tab->renderer, 255, 255, 255, 255);
 		SDL_RenderClear(sudoku_tab->renderer);
+
+
+		// Affichage grid
 		const SDL_Rect rerect = {0, 0, GRID_SIZE, GRID_SIZE};
 		SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->gridTexture, &rerect, &rerect);
 		for (int x = 0; x < 9; x++)
@@ -89,7 +107,17 @@ int mainloop(sudoku *sudoku_tab)
 			}
 		}
 
-		if (sudoku_tab->finish == FALSE)
+		// affichage button start
+		SDL_SetRenderDrawColor(sudoku_tab->renderer, 0, 0, 0, 0);
+		const SDL_Rect butt = {WINDOW_WIDTH - MENU_SIZE / 2 - BUTTON_WIDTH / 2, GRID_SIZE - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT};
+		SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->button_start, NULL, &butt);
+
+		// affichage button finish
+		SDL_SetRenderDrawColor(sudoku_tab->renderer, 0, 0, 0, 0);
+		const SDL_Rect butt_fini = {GRID_SIZE + CELL_MARGIN, 0, MENU_SIZE - CELL_MARGIN - BUTTON_WIDTH/2, BUTTON_HEIGHT};
+		SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->button_finish, NULL, &butt_fini);
+
+		if (sudoku_tab->finish == FALSE && sudoku_tab->running == TRUE)
 		{
 			sudoku_tab->time_deux = time(NULL);
 			unsigned long long int t = difftime(sudoku_tab->time_deux, sudoku_tab->time);
@@ -99,10 +127,10 @@ int mainloop(sudoku *sudoku_tab)
 
 			time_info = localtime(&t);
 			strftime(timeString, sizeof(timeString), "%M:%S", time_info);
-			SDL_Surface *timer_Surface = TTF_RenderText_Blended(sudoku_tab->font, timeString, (SDL_Color){255, 0, 0, 255});
+			SDL_Surface *timer_Surface = TTF_RenderText_Blended(sudoku_tab->font, timeString, (SDL_Color){150, 0, 0, 255});
 			SDL_Texture *timer_Texture = SDL_CreateTextureFromSurface(sudoku_tab->renderer, timer_Surface);
-    		
-			SDL_Rect timerrect = {GRID_SIZE + CELL_MARGIN, CELL_MARGIN, MENU_SIZE - CELL_MARGIN*2, FONT_SIZE * 2};
+
+			SDL_Rect timerrect = {WINDOW_WIDTH - MENU_SIZE / 2 - 45, (CELL_SIZE - 25) , 80, 50};
 			SDL_RenderCopy(sudoku_tab->renderer, timer_Texture, NULL, &timerrect);
 
 			SDL_FreeSurface(timer_Surface);

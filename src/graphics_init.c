@@ -1,8 +1,10 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "fonctions.h"
+#include "display.h"
 
 void init_grid_surface(sudoku *sudoku_tab)
 {
@@ -43,7 +45,6 @@ void font_police(sudoku *sudoku_tab)
 {
     TTF_Font *font = TTF_OpenFont("Montserrat-BoldItalic.ttf", FONT_SIZE);
 
-
     for (int d = 0; d < 9; d++)
     {
         char string[2];
@@ -64,26 +65,48 @@ void message_victoire(sudoku *sudoku_tab)
     SDL_FreeSurface(text_mess);
 }
 
+void button_start(sudoku *sudoku_tab)
+{
+    SDL_Surface *image = IMG_Load("press_start.png");
+    sudoku_tab->button_start = SDL_CreateTextureFromSurface(sudoku_tab->renderer, image);
+    SDL_FreeSurface(image);
+}
+
+void button_finish(sudoku *sudoku_tab)
+{
+    SDL_Surface *image_finish = IMG_Load("button_finish.png");
+    sudoku_tab->button_finish = SDL_CreateTextureFromSurface(sudoku_tab->renderer, image_finish);
+    SDL_FreeSurface(image_finish);
+}
+
 void initGraphics(sudoku *sudoku_tab)
 {
     SDL_Init(SDL_INIT_VIDEO);
     TTF_Init();
+    IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
     sudoku_tab->font = TTF_OpenFont("Montserrat-ExtraBold.ttf", FONT_SIZE * 2);
     sudoku_tab->window = SDL_CreateWindow("sudoku", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
     sudoku_tab->renderer = SDL_CreateRenderer(sudoku_tab->window, -1, SDL_RENDERER_ACCELERATED);
     init_grid_surface(sudoku_tab);
+    button_start(sudoku_tab);
+    button_finish(sudoku_tab);
     font_police(sudoku_tab);
     message_victoire(sudoku_tab);
+    sudoku_tab->time = time(NULL);
+    sudoku_tab->running = 0;
 }
 
 void quitGraphics(sudoku *sudoku_tab)
 {
     TTF_CloseFont(sudoku_tab->font);
+    SDL_DestroyTexture(sudoku_tab->button_start);
+    SDL_DestroyTexture(sudoku_tab->button_finish);
     SDL_DestroyTexture(sudoku_tab->gridTexture);
     for (int i = 0; i < 9; i++)
         SDL_DestroyTexture(sudoku_tab->cellTextures[i]);
     SDL_DestroyRenderer(sudoku_tab->renderer);
     SDL_DestroyWindow(sudoku_tab->window);
+    IMG_Quit();
     TTF_Quit();
     SDL_Quit();
 }
