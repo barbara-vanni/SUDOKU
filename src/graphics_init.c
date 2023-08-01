@@ -65,6 +65,13 @@ void message_victoire(sudoku *sudoku_tab)
     SDL_FreeSurface(text_mess);
 }
 
+void message_verification(sudoku *sudoku_tab)
+{
+    SDL_Surface *text_verif = TTF_RenderText_Blended(sudoku_tab->font, "VERIF ?", (SDL_Color){255, 255, 255, 255});
+    sudoku_tab->verification = SDL_CreateTextureFromSurface(sudoku_tab->renderer, text_verif);
+    SDL_FreeSurface(text_verif);
+}
+
 void button_start(sudoku *sudoku_tab)
 {
     SDL_Surface *image = IMG_Load("press_start.png");
@@ -92,6 +99,7 @@ void initGraphics(sudoku *sudoku_tab)
     button_finish(sudoku_tab);
     font_police(sudoku_tab);
     message_victoire(sudoku_tab);
+    message_verification(sudoku_tab);
     sudoku_tab->time = time(NULL);
     sudoku_tab->running = 0;
 }
@@ -101,6 +109,7 @@ void quitGraphics(sudoku *sudoku_tab)
     TTF_CloseFont(sudoku_tab->font);
     SDL_DestroyTexture(sudoku_tab->button_start);
     SDL_DestroyTexture(sudoku_tab->button_finish);
+    SDL_DestroyTexture(sudoku_tab->verification);
     SDL_DestroyTexture(sudoku_tab->gridTexture);
     for (int i = 0; i < 9; i++)
         SDL_DestroyTexture(sudoku_tab->cellTextures[i]);

@@ -8,6 +8,9 @@ int init_sudoku(sudoku *sudoku_tab)
 {
     sudoku_tab->time = time(NULL);
     sudoku_tab->running = TRUE;
+    sudoku_tab->cell_fill = 0;
+    sudoku_tab->empty_cell_init = 0;
+
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 9; j++)

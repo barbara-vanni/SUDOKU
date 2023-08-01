@@ -15,6 +15,7 @@ typedef struct s_sudoku
     SDL_Texture *gridTexture;
     SDL_Texture *cellTextures[9];
     SDL_Texture *victoire;
+    SDL_Texture *verification;
     // SDL_texture *defaite;
     int gridPos[9];
 
@@ -30,8 +31,11 @@ typedef struct s_sudoku
     int millisec;
     TTF_Font *font;
     int finish;
+    int almost_finish;
     time_t time;
     time_t time_deux;
+    int empty_cell_init;
+    int cell_fill;
 
 } sudoku;
 
@@ -75,5 +79,10 @@ int num_grid(sudoku *sudoku_tab, int num);
 void button_start(sudoku *sudoku_tab);
 
 void button_finish(sudoku *sudoku_tab);
+
+void message_verification(sudoku *sudoku_tab);
+
+void message_victoire(sudoku *sudoku_tab);
+
 
 #endif

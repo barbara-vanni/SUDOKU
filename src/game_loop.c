@@ -9,11 +9,12 @@
 int num_grid(sudoku *sudoku_tab, int num)
 {
 	sudoku_tab->grid[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] = num;
-	if (grille_valid(sudoku_tab) == TRUE)
+	int x, y;
+	if (!case_vide(sudoku_tab->grid, &x, &y))
 	{
-		// printf("nickel\n");
-		sudoku_tab->finish = TRUE;
+		sudoku_tab->almost_finish = TRUE;
 	}
+	sudoku_tab->cell_fill++;
 }
 
 int mainloop(sudoku *sudoku_tab)
@@ -40,12 +41,21 @@ int mainloop(sudoku *sudoku_tab)
 			case SDL_MOUSEBUTTONDOWN:
 				if (events.button.button == SDL_BUTTON_LEFT)
 				{
-					const SDL_Point click = {events.motion.x,events.motion.y};
+					const SDL_Point click = {events.motion.x, events.motion.y};
 					const SDL_Rect butt = {WINDOW_WIDTH - MENU_SIZE / 2 - BUTTON_WIDTH / 2, GRID_SIZE - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT};
-
+					SDL_Rect verif = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
 					if (SDL_PointInRect(&click, &butt) == SDL_TRUE)
 					{
 						init_sudoku(sudoku_tab);
+					}
+
+					if (sudoku_tab->almost_finish == 1 && SDL_PointInRect(&click, &verif) == SDL_TRUE)
+					{
+						if (grille_valid(sudoku_tab) == TRUE)
+						{
+							// printf("nickel\n");
+							sudoku_tab->finish = TRUE;
+						}
 					}
 				}
 				break;
@@ -67,9 +77,10 @@ int mainloop(sudoku *sudoku_tab)
 				}
 				else if (events.key.keysym.sym == SDLK_DELETE || events.key.keysym.sym == SDLK_BACKSPACE)
 				{
-					if (sudoku_tab->gridClone[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] == 0)
+					if (sudoku_tab->gridClone[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] == 0 && sudoku_tab->grid[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] != 0)
 					{
 						sudoku_tab->grid[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] = 0;
+						sudoku_tab->cell_fill--;
 					}
 				}
 
@@ -84,7 +95,6 @@ int mainloop(sudoku *sudoku_tab)
 
 		SDL_SetRenderDrawColor(sudoku_tab->renderer, 255, 255, 255, 255);
 		SDL_RenderClear(sudoku_tab->renderer);
-
 
 		// Affichage grid
 		const SDL_Rect rerect = {0, 0, GRID_SIZE, GRID_SIZE};
@@ -114,8 +124,19 @@ int mainloop(sudoku *sudoku_tab)
 
 		// affichage button finish
 		SDL_SetRenderDrawColor(sudoku_tab->renderer, 0, 0, 0, 0);
-		const SDL_Rect butt_fini = {GRID_SIZE + CELL_MARGIN, 0, MENU_SIZE - CELL_MARGIN - BUTTON_WIDTH/2, BUTTON_HEIGHT};
+		const SDL_Rect butt_fini = {GRID_SIZE + CELL_MARGIN, 0, MENU_SIZE - CELL_MARGIN - BUTTON_WIDTH / 2, BUTTON_HEIGHT};
 		SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->button_finish, NULL, &butt_fini);
+
+		if (sudoku_tab->running)
+		{
+			// Affichage Jauge de progression
+			const int line_y_end = WINDOW_HEIGHT - BUTTON_HEIGHT;
+			const int line_max_height = line_y_end - BUTTON_HEIGHT;
+			int line_heigt = line_max_height * sudoku_tab->cell_fill / sudoku_tab->empty_cell_init;
+			SDL_SetRenderDrawColor(sudoku_tab->renderer, 0, 0, 0, 0);
+			SDL_Rect jauge = {GRID_SIZE + MENU_SIZE / 2 - 2, line_y_end - line_heigt, 5, line_heigt};
+			SDL_RenderFillRect(sudoku_tab->renderer, &jauge);
+		}
 
 		if (sudoku_tab->finish == FALSE && sudoku_tab->running == TRUE)
 		{
@@ -130,13 +151,21 @@ int mainloop(sudoku *sudoku_tab)
 			SDL_Surface *timer_Surface = TTF_RenderText_Blended(sudoku_tab->font, timeString, (SDL_Color){150, 0, 0, 255});
 			SDL_Texture *timer_Texture = SDL_CreateTextureFromSurface(sudoku_tab->renderer, timer_Surface);
 
-			SDL_Rect timerrect = {WINDOW_WIDTH - MENU_SIZE / 2 - 45, (CELL_SIZE - 25) , 80, 50};
+			SDL_Rect timerrect = {WINDOW_WIDTH - MENU_SIZE / 2 - 45, (CELL_SIZE - 25), 80, 50};
 			SDL_RenderCopy(sudoku_tab->renderer, timer_Texture, NULL, &timerrect);
 
 			SDL_FreeSurface(timer_Surface);
 			SDL_DestroyTexture(timer_Texture);
 
 			printf("%s \r", timeString);
+		}
+
+		if (sudoku_tab->almost_finish == TRUE)
+		{
+			SDL_SetRenderDrawColor(sudoku_tab->renderer, 30, 30, 30, 30);
+			SDL_Rect verif = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
+			SDL_RenderFillRect(sudoku_tab->renderer, &verif);
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->verification, NULL, &verif);
 		}
 
 		if (sudoku_tab->finish == TRUE)

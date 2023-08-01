@@ -39,6 +39,10 @@ void remove_numbers(sudoku *sudoku_tab, int clean_numb)
         for (int j = 0; j < 9; j++)
         {
             sudoku_tab->gridClone[i][j] = sudoku_tab->grid[i][j];
+            if (sudoku_tab->grid[i][j] == 0)
+            {
+                sudoku_tab->empty_cell_init ++;
+            }
         }
     }
     printf("\n");
