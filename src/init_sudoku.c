@@ -31,6 +31,7 @@ int init_sudoku(sudoku *sudoku_tab)
     }
     remove_numbers(sudoku_tab, 2);
     sudoku_tab->finish = FALSE;
+    return 0; 
 }
 
 int grille_valid(sudoku *sudoku_tab)

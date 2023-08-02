@@ -87,6 +87,19 @@ void message_rectification(sudoku *sudoku_tab)
     SDL_FreeSurface(text_rectif);
 }
 
+void message_fin_de_partie(sudoku *sudoku_tab)
+{
+    // reesayer 
+    SDL_Surface *text_retry = TTF_RenderText_Blended(sudoku_tab->font, "TRY AGAIN", (SDL_Color){255, 255, 255, 255});
+    sudoku_tab->try_again = SDL_CreateTextureFromSurface(sudoku_tab->renderer, text_retry);
+    SDL_FreeSurface(text_retry);
+    // new game
+    SDL_Surface *text_new_game = TTF_RenderText_Blended(sudoku_tab->font, "NEW GAME", (SDL_Color){255, 255, 255, 255});
+    sudoku_tab->new_game = SDL_CreateTextureFromSurface(sudoku_tab->renderer, text_new_game);
+    SDL_FreeSurface(text_new_game);
+
+}
+
 
 void button_start(sudoku *sudoku_tab)
 {
@@ -117,6 +130,7 @@ void initGraphics(sudoku *sudoku_tab)
     message_victoire(sudoku_tab);
     message_verification(sudoku_tab);
     message_rectification(sudoku_tab);
+    message_fin_de_partie(sudoku_tab);
     sudoku_tab->time = time(NULL);
     sudoku_tab->running = 0;
 }
@@ -128,6 +142,8 @@ void quitGraphics(sudoku *sudoku_tab)
     SDL_DestroyTexture(sudoku_tab->button_finish);
     SDL_DestroyTexture(sudoku_tab->verification);
     SDL_DestroyTexture(sudoku_tab->rectification);
+    SDL_DestroyTexture(sudoku_tab->new_game);
+    SDL_DestroyTexture(sudoku_tab->try_again);
     SDL_DestroyTexture(sudoku_tab->gridTexture);
     for (int i = 0; i < 9; i++)
     {

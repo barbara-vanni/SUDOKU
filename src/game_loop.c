@@ -8,6 +8,10 @@
 
 int num_grid(sudoku *sudoku_tab, int num)
 {
+	// if (sudoku_tab->almost_finish == TRUE)
+	// {
+	// 	return FALSE;
+	// }
 	sudoku_tab->grid[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] = num;
 	int x, y;
 	if (!case_vide(sudoku_tab->grid, &x, &y))
@@ -15,6 +19,7 @@ int num_grid(sudoku *sudoku_tab, int num)
 		sudoku_tab->almost_finish = TRUE;
 	}
 	sudoku_tab->cell_fill++;
+	return 0;
 }
 
 int mainloop(sudoku *sudoku_tab)
@@ -45,9 +50,32 @@ int mainloop(sudoku *sudoku_tab)
 					const SDL_Rect butt = {WINDOW_WIDTH - MENU_SIZE / 2 - BUTTON_WIDTH / 2, GRID_SIZE - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT};
 					SDL_Rect verif = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2 - CELL_SIZE, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
 					SDL_Rect rectif = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2 + CELL_SIZE, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
+					SDL_Rect try_again = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2 + CELL_SIZE, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
+					SDL_Rect new_game = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2 - CELL_SIZE, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
+
 					if (SDL_PointInRect(&click, &butt) == SDL_TRUE)
 					{
 						init_sudoku(sudoku_tab);
+					}
+
+					if (sudoku_tab->finish > 0 && SDL_PointInRect(&click, &new_game) == SDL_TRUE)
+					{
+						init_sudoku(sudoku_tab);
+					}
+
+					if (sudoku_tab->finish > 0 && SDL_PointInRect(&click, &try_again) == SDL_TRUE)
+					{
+						sudoku_tab->time = time(NULL);
+						sudoku_tab->finish = 0;
+						sudoku_tab->almost_finish = 0;
+						sudoku_tab->cell_fill = 0;
+						for (int i = 0; i < 9; i++)
+						{
+							for (int j = 0; j < 9; j++)
+							{
+								sudoku_tab->grid[i][j] = sudoku_tab->gridClone[i][j];
+							}
+						}
 					}
 
 					if (sudoku_tab->almost_finish == 1 && SDL_PointInRect(&click, &verif) == SDL_TRUE)
@@ -91,7 +119,7 @@ int mainloop(sudoku *sudoku_tab)
 						num_grid(sudoku_tab, events.key.keysym.sym - 1073741912);
 					}
 				}
-				else if (events.key.keysym.sym == SDLK_DELETE || events.key.keysym.sym == SDLK_BACKSPACE)
+				else if ((events.key.keysym.sym == SDLK_DELETE || events.key.keysym.sym == SDLK_BACKSPACE) && sudoku_tab->almost_finish == 0)
 				{
 					if (sudoku_tab->gridClone[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] == 0 && sudoku_tab->grid[sudoku_tab->selectedCellY][sudoku_tab->selectedCellX] != 0)
 					{
@@ -175,7 +203,7 @@ int mainloop(sudoku *sudoku_tab)
 			struct tm *time_info;
 			char timeString[9];
 
-			time_info = localtime(&t);
+			time_info = localtime((time_t *)&t);
 			strftime(timeString, sizeof(timeString), "%M:%S", time_info);
 			SDL_Surface *timer_Surface = TTF_RenderText_Blended(sudoku_tab->font, timeString, (SDL_Color){150, 0, 0, 255});
 			SDL_Texture *timer_Texture = SDL_CreateTextureFromSurface(sudoku_tab->renderer, timer_Surface);
@@ -190,7 +218,7 @@ int mainloop(sudoku *sudoku_tab)
 		}
 
 		// Bouton de verification
-		if (sudoku_tab->almost_finish == TRUE)
+		if (sudoku_tab->almost_finish == TRUE && sudoku_tab->finish == 0)
 		{
 			SDL_SetRenderDrawColor(sudoku_tab->renderer, 30, 30, 30, 30);
 			SDL_Rect verif = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2 - CELL_SIZE, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
@@ -209,6 +237,21 @@ int mainloop(sudoku *sudoku_tab)
 			SDL_Rect rect = {0, GRID_SIZE / 2 - FONT_SIZE / 2, GRID_SIZE, FONT_SIZE * 2};
 			SDL_RenderFillRect(sudoku_tab->renderer, &rect);
 			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->victoire, NULL, &rect);
+
+			SDL_SetRenderDrawColor(sudoku_tab->renderer, 30, 30, 30, 30);
+			SDL_Rect verif = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2 - CELL_SIZE, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
+			SDL_RenderFillRect(sudoku_tab->renderer, &verif);
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->verification, NULL, &verif);
+
+			SDL_SetRenderDrawColor(sudoku_tab->renderer, 30, 30, 30, 30);
+			SDL_Rect try_again = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2 + CELL_SIZE, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
+			SDL_RenderFillRect(sudoku_tab->renderer, &try_again);
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->try_again, NULL, &try_again);
+
+			SDL_SetRenderDrawColor(sudoku_tab->renderer, 30, 30, 30, 30);
+			SDL_Rect new_game = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2 - CELL_SIZE, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
+			SDL_RenderFillRect(sudoku_tab->renderer, &new_game);
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->new_game, NULL, &new_game);
 		}
 		if (sudoku_tab->finish == 2)
 		{
@@ -216,6 +259,16 @@ int mainloop(sudoku *sudoku_tab)
 			SDL_Rect rect = {0, GRID_SIZE / 2 - FONT_SIZE / 2, GRID_SIZE, FONT_SIZE * 2};
 			SDL_RenderFillRect(sudoku_tab->renderer, &rect);
 			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->defaite, NULL, &rect);
+
+			SDL_SetRenderDrawColor(sudoku_tab->renderer, 30, 30, 30, 30);
+			SDL_Rect try_again = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2 + CELL_SIZE, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
+			SDL_RenderFillRect(sudoku_tab->renderer, &try_again);
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->try_again, NULL, &try_again);
+
+			SDL_SetRenderDrawColor(sudoku_tab->renderer, 30, 30, 30, 30);
+			SDL_Rect new_game = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2 - CELL_SIZE, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
+			SDL_RenderFillRect(sudoku_tab->renderer, &new_game);
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->new_game, NULL, &new_game);
 		}
 
 		SDL_RenderPresent(sudoku_tab->renderer);
