@@ -53,6 +53,9 @@ void font_police(sudoku *sudoku_tab)
         SDL_Surface *text = TTF_RenderText_Blended(font, string, (SDL_Color){0, 255, 0, 255});
         sudoku_tab->cellTextures[d] = SDL_CreateTextureFromSurface(sudoku_tab->renderer, text);
         SDL_FreeSurface(text);
+        SDL_Surface *texti = TTF_RenderText_Blended(font, string, (SDL_Color){255, 255, 0, 255});
+        sudoku_tab->cellTexturesPlayer[d] = SDL_CreateTextureFromSurface(sudoku_tab->renderer, texti);
+        SDL_FreeSurface(texti);
     }
 
     TTF_CloseFont(font);
@@ -60,9 +63,14 @@ void font_police(sudoku *sudoku_tab)
 
 void message_victoire(sudoku *sudoku_tab)
 {
+    // victoire
     SDL_Surface *text_mess = TTF_RenderText_Blended(sudoku_tab->font, "BRAVO!", (SDL_Color){255, 0, 0, 255});
     sudoku_tab->victoire = SDL_CreateTextureFromSurface(sudoku_tab->renderer, text_mess);
     SDL_FreeSurface(text_mess);
+    //  defaite 
+    SDL_Surface *text_mess_def = TTF_RenderText_Blended(sudoku_tab->font, "PAS OUF!", (SDL_Color){255, 0, 0, 255});
+    sudoku_tab->defaite = SDL_CreateTextureFromSurface(sudoku_tab->renderer, text_mess_def);
+    SDL_FreeSurface(text_mess_def);
 }
 
 void message_verification(sudoku *sudoku_tab)
@@ -71,6 +79,14 @@ void message_verification(sudoku *sudoku_tab)
     sudoku_tab->verification = SDL_CreateTextureFromSurface(sudoku_tab->renderer, text_verif);
     SDL_FreeSurface(text_verif);
 }
+
+void message_rectification(sudoku *sudoku_tab)
+{
+    SDL_Surface *text_rectif = TTF_RenderText_Blended(sudoku_tab->font, "RECTIF ?", (SDL_Color){255, 255, 255, 255});
+    sudoku_tab->rectification = SDL_CreateTextureFromSurface(sudoku_tab->renderer, text_rectif);
+    SDL_FreeSurface(text_rectif);
+}
+
 
 void button_start(sudoku *sudoku_tab)
 {
@@ -100,6 +116,7 @@ void initGraphics(sudoku *sudoku_tab)
     font_police(sudoku_tab);
     message_victoire(sudoku_tab);
     message_verification(sudoku_tab);
+    message_rectification(sudoku_tab);
     sudoku_tab->time = time(NULL);
     sudoku_tab->running = 0;
 }
@@ -110,9 +127,13 @@ void quitGraphics(sudoku *sudoku_tab)
     SDL_DestroyTexture(sudoku_tab->button_start);
     SDL_DestroyTexture(sudoku_tab->button_finish);
     SDL_DestroyTexture(sudoku_tab->verification);
+    SDL_DestroyTexture(sudoku_tab->rectification);
     SDL_DestroyTexture(sudoku_tab->gridTexture);
     for (int i = 0; i < 9; i++)
+    {
         SDL_DestroyTexture(sudoku_tab->cellTextures[i]);
+        SDL_DestroyTexture(sudoku_tab->cellTexturesPlayer[i]);
+    }
     SDL_DestroyRenderer(sudoku_tab->renderer);
     SDL_DestroyWindow(sudoku_tab->window);
     IMG_Quit();

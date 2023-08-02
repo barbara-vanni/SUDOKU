@@ -14,16 +14,13 @@ typedef struct s_sudoku
     SDL_Texture *button_finish;
     SDL_Texture *gridTexture;
     SDL_Texture *cellTextures[9];
+    SDL_Texture *cellTexturesPlayer[9];
     SDL_Texture *victoire;
     SDL_Texture *verification;
-    // SDL_texture *defaite;
+    SDL_Texture *rectification;
+    SDL_Texture *defaite;
     int gridPos[9];
 
-    int range[9];
-    int grid[9][9];
-    int gridClone[9][9];
-    int gridvalid[9][9];
-    int gridass[9][9][9];
 
     int running;
     int selectedCellX;
@@ -36,7 +33,14 @@ typedef struct s_sudoku
     time_t time_deux;
     int empty_cell_init;
     int cell_fill;
+    int last_x;
+    int last_y;
 
+    int range[9];
+    int grid[9][9];
+    int gridClone[9][9];
+    int gridvalid[9][9];
+    int gridass[9][9][9];
 } sudoku;
 
 /*
@@ -83,6 +87,8 @@ void button_finish(sudoku *sudoku_tab);
 void message_verification(sudoku *sudoku_tab);
 
 void message_victoire(sudoku *sudoku_tab);
+
+void message_rectification(sudoku *sudoku_tab);
 
 
 #endif

@@ -10,6 +10,7 @@ int init_sudoku(sudoku *sudoku_tab)
     sudoku_tab->running = TRUE;
     sudoku_tab->cell_fill = 0;
     sudoku_tab->empty_cell_init = 0;
+    sudoku_tab->almost_finish =0;
 
     for (int i = 0; i < 9; i++)
     {
@@ -28,7 +29,7 @@ int init_sudoku(sudoku *sudoku_tab)
             sudoku_tab->gridvalid[i][j] = sudoku_tab->grid[i][j];
         }
     }
-    remove_numbers(sudoku_tab, 1);
+    remove_numbers(sudoku_tab, 2);
     sudoku_tab->finish = FALSE;
 }
 
