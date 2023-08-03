@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include "fonctions.h"
 #include <stdio.h>
-void remove_numbers(sudoku *sudoku_tab, int clean_numb)
+void remove_numbers(sudoku *sudoku_tab)
 {
     int EMPTY_x;
     int EMPTY_y;
 
-    for (int a = 0; a < clean_numb; a++)
+    for (int a = 0; a < sudoku_tab->clean_number; a++)
     {
         printf("%d\r", a);
         EMPTY_x = rand() % 9;

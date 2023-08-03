@@ -103,9 +103,27 @@ void message_fin_de_partie(sudoku *sudoku_tab)
 
 void button_start(sudoku *sudoku_tab)
 {
+    // bouton start
     SDL_Surface *image = IMG_Load("press_start.png");
     sudoku_tab->button_start = SDL_CreateTextureFromSurface(sudoku_tab->renderer, image);
     SDL_FreeSurface(image);
+    // niveau de jeu
+    SDL_Surface *lvl_1 = IMG_Load("Flamme 1.png");
+    sudoku_tab->level_1 = SDL_CreateTextureFromSurface(sudoku_tab->renderer, lvl_1);
+    SDL_FreeSurface(lvl_1);
+    SDL_Surface *lvl_2 = IMG_Load("Flamme 2.png");
+    sudoku_tab->level_2 = SDL_CreateTextureFromSurface(sudoku_tab->renderer, lvl_2);
+    SDL_FreeSurface(lvl_2);
+    SDL_Surface *lvl_3 = IMG_Load("Flamme 3.png");
+    sudoku_tab->level_3 = SDL_CreateTextureFromSurface(sudoku_tab->renderer, lvl_3);
+    SDL_FreeSurface(lvl_3);
+    SDL_Surface *lvl_4 = IMG_Load("Flamme 4.png");
+    sudoku_tab->level_4 = SDL_CreateTextureFromSurface(sudoku_tab->renderer, lvl_4);
+    SDL_FreeSurface(lvl_4);
+    SDL_Surface *lvl_5 = IMG_Load("Flamme 5.png");
+    sudoku_tab->level_5 = SDL_CreateTextureFromSurface(sudoku_tab->renderer, lvl_5);
+    SDL_FreeSurface(lvl_5);
+
 }
 
 void button_finish(sudoku *sudoku_tab)
@@ -117,6 +135,7 @@ void button_finish(sudoku *sudoku_tab)
 
 void initGraphics(sudoku *sudoku_tab)
 {
+    sudoku_tab->almost_start = 0;
     SDL_Init(SDL_INIT_VIDEO);
     TTF_Init();
     IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
@@ -145,6 +164,11 @@ void quitGraphics(sudoku *sudoku_tab)
     SDL_DestroyTexture(sudoku_tab->new_game);
     SDL_DestroyTexture(sudoku_tab->try_again);
     SDL_DestroyTexture(sudoku_tab->gridTexture);
+    SDL_DestroyTexture(sudoku_tab->level_1);
+    SDL_DestroyTexture(sudoku_tab->level_2);
+    SDL_DestroyTexture(sudoku_tab->level_3);
+    SDL_DestroyTexture(sudoku_tab->level_4);
+    SDL_DestroyTexture(sudoku_tab->level_5);
     for (int i = 0; i < 9; i++)
     {
         SDL_DestroyTexture(sudoku_tab->cellTextures[i]);

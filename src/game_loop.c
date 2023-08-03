@@ -52,15 +52,51 @@ int mainloop(sudoku *sudoku_tab)
 					SDL_Rect rectif = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2 + CELL_SIZE, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
 					SDL_Rect try_again = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2 + CELL_SIZE, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
 					SDL_Rect new_game = {GRID_SIZE + CELL_MARGIN, GRID_SIZE / 2 - FONT_SIZE / 2 - CELL_SIZE, MENU_SIZE - CELL_MARGIN * 2, FONT_SIZE * 2};
+					const SDL_Rect level_one = {MID_MENU_SIZE - 52, WINDOW_HEIGHT - 104, 104, 104};
+					const SDL_Rect level_two = {MID_MENU_SIZE - 62, WINDOW_HEIGHT - 214, 124, 114};
+					const SDL_Rect level_three = {MID_MENU_SIZE - 72, WINDOW_HEIGHT - 338, 144, 124};
+					const SDL_Rect level_four = {MID_MENU_SIZE - 82, 144, 164, 134};
+					const SDL_Rect level_five = {MID_MENU_SIZE - 92, 0, 184, 144};
 
-					if (SDL_PointInRect(&click, &butt) == SDL_TRUE)
+					if (SDL_PointInRect(&click, &level_one) == SDL_TRUE && sudoku_tab->almost_start == 1)
 					{
+						sudoku_tab->almost_start = 2;
+						sudoku_tab->clean_number = 15;
 						init_sudoku(sudoku_tab);
+					}
+					if (SDL_PointInRect(&click, &level_two) == SDL_TRUE && sudoku_tab->almost_start == 1)
+					{
+						sudoku_tab->clean_number = 30;
+						init_sudoku(sudoku_tab);
+						sudoku_tab->almost_start = 2;
+					}
+					if (SDL_PointInRect(&click, &level_three) == SDL_TRUE && sudoku_tab->almost_start == 1)
+					{
+						sudoku_tab->clean_number = 45;
+						init_sudoku(sudoku_tab);
+						sudoku_tab->almost_start = 2;
+					}
+					if (SDL_PointInRect(&click, &level_four) == SDL_TRUE && sudoku_tab->almost_start == 1)
+					{
+						sudoku_tab->clean_number = 60;
+						init_sudoku(sudoku_tab);
+						sudoku_tab->almost_start = 2;
+					}
+					if (SDL_PointInRect(&click, &level_five) == SDL_TRUE && sudoku_tab->almost_start == 1)
+					{
+						sudoku_tab->clean_number = 75;
+						init_sudoku(sudoku_tab);
+						sudoku_tab->almost_start = 2;
+					}
+
+					if (SDL_PointInRect(&click, &butt) == SDL_TRUE && sudoku_tab->almost_start == 0)
+					{
+						sudoku_tab->almost_start = 1;
 					}
 
 					if (sudoku_tab->finish > 0 && SDL_PointInRect(&click, &new_game) == SDL_TRUE)
 					{
-						init_sudoku(sudoku_tab);
+						sudoku_tab->almost_start = 1;
 					}
 
 					if (sudoku_tab->finish > 0 && SDL_PointInRect(&click, &try_again) == SDL_TRUE)
@@ -96,6 +132,11 @@ int mainloop(sudoku *sudoku_tab)
 						sudoku_tab->grid[sudoku_tab->last_y][sudoku_tab->last_x] = 0;
 						sudoku_tab->cell_fill--;
 						sudoku_tab->almost_finish = FALSE;
+					}
+					if (sudoku_tab->almost_start == 2)
+					{
+
+						sudoku_tab->almost_start = 0;
 					}
 				}
 				break;
@@ -173,15 +214,32 @@ int mainloop(sudoku *sudoku_tab)
 			}
 		}
 
-		// affichage button start
-		SDL_SetRenderDrawColor(sudoku_tab->renderer, 0, 0, 0, 0);
-		const SDL_Rect butt = {WINDOW_WIDTH - MENU_SIZE / 2 - BUTTON_WIDTH / 2, GRID_SIZE - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT};
-		SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->button_start, NULL, &butt);
+		// bouton niveau de 1 à 5
+		if (sudoku_tab->almost_start == 1)
+		{
+			const SDL_Rect level_one = {MID_MENU_SIZE - 52, WINDOW_HEIGHT - 104, 104, 104};
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->level_1, NULL, &level_one);
+			const SDL_Rect level_two = {MID_MENU_SIZE - 62, WINDOW_HEIGHT - 214, 124, 114};
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->level_2, NULL, &level_two);
+			const SDL_Rect level_three = {MID_MENU_SIZE - 72, WINDOW_HEIGHT - 338, 144, 124};
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->level_3, NULL, &level_three);
+			const SDL_Rect level_four = {MID_MENU_SIZE - 82, 144, 164, 134};
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->level_4, NULL, &level_four);
+			const SDL_Rect level_five = {MID_MENU_SIZE - 92, 0, 184, 144};
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->level_5, NULL, &level_five);
+		}
 
-		// affichage button finish
-		SDL_SetRenderDrawColor(sudoku_tab->renderer, 0, 0, 0, 0);
-		const SDL_Rect butt_fini = {GRID_SIZE + CELL_MARGIN, 5, MENU_SIZE - CELL_MARGIN - BUTTON_WIDTH / 2, BUTTON_HEIGHT};
-		SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->button_finish, NULL, &butt_fini);
+		if (sudoku_tab->almost_start == 0)
+		{
+			// affichage button start
+			SDL_SetRenderDrawColor(sudoku_tab->renderer, 0, 0, 0, 0);
+			const SDL_Rect butt = {WINDOW_WIDTH - MENU_SIZE / 2 - BUTTON_WIDTH / 2, GRID_SIZE - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT};
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->button_start, NULL, &butt);
+			// affichage button finish
+			SDL_SetRenderDrawColor(sudoku_tab->renderer, 0, 0, 0, 0);
+			const SDL_Rect butt_fini = {GRID_SIZE + CELL_MARGIN, 5, MENU_SIZE - CELL_MARGIN - BUTTON_WIDTH / 2, BUTTON_HEIGHT};
+			SDL_RenderCopy(sudoku_tab->renderer, sudoku_tab->button_finish, NULL, &butt_fini);
+		}
 
 		if (sudoku_tab->running)
 		{

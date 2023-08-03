@@ -21,6 +21,11 @@ typedef struct s_sudoku
     SDL_Texture *defaite;
     SDL_Texture *new_game;
     SDL_Texture *try_again;
+    SDL_Texture *level_1;
+    SDL_Texture *level_2;
+    SDL_Texture *level_3;
+    SDL_Texture *level_4;
+    SDL_Texture *level_5;
     int gridPos[9];
 
 
@@ -37,6 +42,8 @@ typedef struct s_sudoku
     int cell_fill;
     int last_x;
     int last_y;
+    int almost_start;
+    int clean_number;
 
     int range[9];
     int grid[9][9];
@@ -56,7 +63,7 @@ int solver(sudoku *sudoku_tab, int grid[9][9], int count);
 
 void shuffle_range(sudoku *sudoku_tab);
 
-void remove_numbers(sudoku *sudoku_tab, int clean_numb);
+void remove_numbers(sudoku *sudoku_tab);
 
 int idiot_solver(sudoku *sudoku_tab);
 
