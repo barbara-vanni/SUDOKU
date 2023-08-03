@@ -104,7 +104,7 @@ void message_fin_de_partie(sudoku *sudoku_tab)
 void button_start(sudoku *sudoku_tab)
 {
     // bouton start
-    SDL_Surface *image = IMG_Load("press_start.png");
+    SDL_Surface *image = IMG_Load("bouton start flame.png");
     sudoku_tab->button_start = SDL_CreateTextureFromSurface(sudoku_tab->renderer, image);
     SDL_FreeSurface(image);
     // niveau de jeu
