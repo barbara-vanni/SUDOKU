@@ -19,15 +19,16 @@ SRCS_RAW := mainu.c \
 		case_vide.c \
 		shuffle_range.c \
 		remove.c \
-		idiot_solver.c \
 		gridass.c \
-		celib_nu.c \
-		celib_cache.c \
-		segment.c \
-		segment_2.c \
 		graphics_init.c \
 		game_loop.c \
 		init_sudoku.c \
+		sprite.c \
+		event_keydown.c \
+		event_mouse_button_down.c \
+		affichage_level.c \
+		affichage_grille.c \
+		timer.c \
 
 SRCS := $(addprefix $(SRCS_FOLDER)/, $(SRCS_RAW))
 OBJS := $(SRCS:$(SRCS_FOLDER)/%.c=$(OBJS_FOLDER)/%.o)

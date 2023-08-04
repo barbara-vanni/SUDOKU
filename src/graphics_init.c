@@ -43,7 +43,7 @@ void init_grid_surface(sudoku *sudoku_tab)
 
 void font_police(sudoku *sudoku_tab)
 {
-    TTF_Font *font = TTF_OpenFont("Montserrat-BoldItalic.ttf", FONT_SIZE);
+    TTF_Font *font = TTF_OpenFont("fonts/Montserrat-BoldItalic.ttf", FONT_SIZE);
 
     for (int d = 0; d < 9; d++)
     {
@@ -104,23 +104,23 @@ void message_fin_de_partie(sudoku *sudoku_tab)
 void button_start(sudoku *sudoku_tab)
 {
     // bouton start
-    SDL_Surface *image = IMG_Load("bouton start flame.png");
+    SDL_Surface *image = IMG_Load("Assets/bouton start flame.png");
     sudoku_tab->button_start = SDL_CreateTextureFromSurface(sudoku_tab->renderer, image);
     SDL_FreeSurface(image);
     // niveau de jeu
-    SDL_Surface *lvl_1 = IMG_Load("Flamme 1.png");
+    SDL_Surface *lvl_1 = IMG_Load("Assets/Flamme 1.png");
     sudoku_tab->level_1 = SDL_CreateTextureFromSurface(sudoku_tab->renderer, lvl_1);
     SDL_FreeSurface(lvl_1);
-    SDL_Surface *lvl_2 = IMG_Load("Flamme 2.png");
+    SDL_Surface *lvl_2 = IMG_Load("Assets/Flamme 2.png");
     sudoku_tab->level_2 = SDL_CreateTextureFromSurface(sudoku_tab->renderer, lvl_2);
     SDL_FreeSurface(lvl_2);
-    SDL_Surface *lvl_3 = IMG_Load("Flamme 3.png");
+    SDL_Surface *lvl_3 = IMG_Load("Assets/Flamme 3.png");
     sudoku_tab->level_3 = SDL_CreateTextureFromSurface(sudoku_tab->renderer, lvl_3);
     SDL_FreeSurface(lvl_3);
-    SDL_Surface *lvl_4 = IMG_Load("Flamme 4.png");
+    SDL_Surface *lvl_4 = IMG_Load("Assets/Flamme 4.png");
     sudoku_tab->level_4 = SDL_CreateTextureFromSurface(sudoku_tab->renderer, lvl_4);
     SDL_FreeSurface(lvl_4);
-    SDL_Surface *lvl_5 = IMG_Load("Flamme 5.png");
+    SDL_Surface *lvl_5 = IMG_Load("Assets/Flamme 5.png");
     sudoku_tab->level_5 = SDL_CreateTextureFromSurface(sudoku_tab->renderer, lvl_5);
     SDL_FreeSurface(lvl_5);
 
@@ -128,7 +128,7 @@ void button_start(sudoku *sudoku_tab)
 
 void button_finish(sudoku *sudoku_tab)
 {
-    SDL_Surface *image_finish = IMG_Load("button_finish.png");
+    SDL_Surface *image_finish = IMG_Load("Assets/button_finish.png");
     sudoku_tab->button_finish = SDL_CreateTextureFromSurface(sudoku_tab->renderer, image_finish);
     SDL_FreeSurface(image_finish);
 }
@@ -139,7 +139,7 @@ void initGraphics(sudoku *sudoku_tab)
     SDL_Init(SDL_INIT_VIDEO);
     TTF_Init();
     IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-    sudoku_tab->font = TTF_OpenFont("Montserrat-ExtraBold.ttf", FONT_SIZE * 2);
+    sudoku_tab->font = TTF_OpenFont("fonts/Montserrat-ExtraBold.ttf", FONT_SIZE * 2);
     sudoku_tab->window = SDL_CreateWindow("sudoku", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
     sudoku_tab->renderer = SDL_CreateRenderer(sudoku_tab->window, -1, SDL_RENDERER_ACCELERATED);
     init_grid_surface(sudoku_tab);
@@ -152,6 +152,7 @@ void initGraphics(sudoku *sudoku_tab)
     message_fin_de_partie(sudoku_tab);
     sudoku_tab->time = time(NULL);
     sudoku_tab->running = 0;
+    cat_sprite(sudoku_tab);
 }
 
 void quitGraphics(sudoku *sudoku_tab)

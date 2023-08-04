@@ -10,6 +10,7 @@ int init_sudoku(sudoku *sudoku_tab)
     sudoku_tab->cell_fill = 0;
     sudoku_tab->empty_cell_init = 0;
     sudoku_tab->almost_finish = 0;
+    sudoku_tab->count = 0;
 
     for (int i = 0; i < 9; i++)
     {

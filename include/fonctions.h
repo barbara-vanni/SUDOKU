@@ -26,6 +26,7 @@ typedef struct s_sudoku
     SDL_Texture *level_3;
     SDL_Texture *level_4;
     SDL_Texture *level_5;
+    SDL_Texture *cat_sprite;
     int gridPos[9];
 
 
@@ -43,7 +44,10 @@ typedef struct s_sudoku
     int last_x;
     int last_y;
     int almost_start;
+    // int cat_apparition;
     int clean_number;
+    int count;
+    int levels;
 
     int range[9];
     int grid[9][9];
@@ -100,6 +104,20 @@ void message_victoire(sudoku *sudoku_tab);
 void message_rectification(sudoku *sudoku_tab);
 
 void message_fin_de_partie(sudoku *sudoku_tab);
+
+void cat_sprite(sudoku *sudoku_tab);
+
+void animated_cat(sudoku *sudoku_tab, int y);
+
+int event_mouse_button_down(sudoku *sudoku_tab, SDL_Event *events);
+
+int event_keydown(sudoku *sudoku_tab, SDL_Event *events);
+
+int affichage_level(sudoku* sudoku_tab);
+
+int affichage_grille(sudoku* sudoku_tab);
+
+int affichage_timer(sudoku* sudoku_tab);
 
 
 #endif

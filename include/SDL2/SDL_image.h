@@ -221,7 +221,7 @@ extern DECLSPEC void SDLCALL IMG_Quit(void);
  * its ability to guess the format.
  *
  * There is a separate function to read files from disk without having to deal
- * with SDL_RWops: `IMG_Load("filename.jpg")` will call this function and
+ * with SDL_RWops: `IMG_Load("Assets/filename.jpg")` will call this function and
  * manage those details for you, determining the file type from the filename's
  * extension.
  *
@@ -318,7 +318,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_Load(const char *file);
  * from the RWops during this call in any case.
  *
  * There is a separate function to read files from disk without having to deal
- * with SDL_RWops: `IMG_Load("filename.jpg")` will call this function and
+ * with SDL_RWops: `IMG_Load("Assets/filename.jpg")` will call this function and
  * manage those details for you, determining the file type from the filename's
  * extension.
  *
