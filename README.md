@@ -19,7 +19,7 @@ Projet réalisé en parallèle avec **[Anthony Yrles](https://github.com/anthony
 
 ## :ninja: : Cosmetique
 
-[Flame](Flamme 1.png)
+[Flame](Assets/Flamme%201.png)
 
 
 ----------
