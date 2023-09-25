@@ -17,7 +17,9 @@ Projet réalisé en parallèle avec **[Anthony Yrles](https://github.com/anthony
 - [🤖:] Petit plus dans le fichier **solveur_humain.c** avec 4 fonctions d'algorithmique pure qui sont censé rendre la résolution de ce sudoku plus humain. Il en aurait fallu au moins 7 pour que ce soit réellement efficace [🤖:] 
 
 
-## :: : Cosmétique 
+## :ninja: : Cosmetique
+
+[Flame](Flamme 1.png)
 
 
 ----------
