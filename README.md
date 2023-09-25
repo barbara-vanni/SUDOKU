@@ -1,13 +1,20 @@
 
 # <p align="center">SOLVEUR SUDOKU en C</p>
   
-**Objectif** : créer un solveur de sudoku en 3 semaines 
+**Objectif **: créer un solveur de sudoku en 3 semaines 
 
-[:boom:] Thanks to **Rodolphe Le Ru** et **Clément Caillat**
+Projet réalisé en parallèle avec **[Anthony Yrles](https://github.com/anthony-yrles)** qui apprend en même temps que moi les rouages du dévellopeur. Voici son [sudoku](https://github.com/anthony-yrles/Sudoku_en_C)
+
+[🫀:] Thanks to **[Rodolphe Le Ru](https://github.com/rle-ru)** et **[Clément Caillat](https://github.com/clement-caillat)** pour nous avoir formés et orientés tout au long du projet. 
+
+----------
 
 
-## :full_moon: Features    
 
-- :tada: Résout les grilles de sudoku standard de 9x9.
-- :tada: Utilise l'algorithme de backtracking pour résoudre les grilles.
-- :tada: Supporte les grilles avec des cases vides
+## 💥: Features    
+
+- 🕳️: Résout les grilles de sudoku standard de 9x9.
+- 🕳️: Utilise l'algorithme de backtracking pour résoudre les grilles.
+- 🕳️: Supporte les grilles avec des cases vides
+- [🤖:] Petit plus dans le fichier **solveur_humain.c** avec 4 fonctions d'algorithmique pure qui sont censé rendre la résolution de ce sudoku plus humain. Il en aurait fallu au moins 7 pour que ce soit réellement efficace [🤖:] 
+        
