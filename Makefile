@@ -9,7 +9,7 @@ BIN_FOLDER := .
 
 SDL_INCLUDE := -I./include
 
-CFLAGS := -Wall -Wextra -flto -O3 -I$(INCLUDE_FOLDER) -I$(PREREQUISITES_FOLDER) -I$(SDL_INCLUDE) -MMD
+CFLAGS := -Wall -Wextra -flto -O1 -I$(INCLUDE_FOLDER) -I$(PREREQUISITES_FOLDER) -I$(SDL_INCLUDE) -MMD
 LDFLAGS := -L./lib/
 
 SRCS_RAW := mainu.c \
@@ -19,12 +19,16 @@ SRCS_RAW := mainu.c \
 		case_vide.c \
 		shuffle_range.c \
 		remove.c \
-		idiot_solver.c \
 		gridass.c \
-		celib_nu.c \
-		celib_cache.c \
-		segment.c \
-		segment_2.c \
+		graphics_init.c \
+		game_loop.c \
+		init_sudoku.c \
+		sprite.c \
+		event_keydown.c \
+		event_mouse_button_down.c \
+		affichage_level.c \
+		affichage_grille.c \
+		timer.c \
 
 SRCS := $(addprefix $(SRCS_FOLDER)/, $(SRCS_RAW))
 OBJS := $(SRCS:$(SRCS_FOLDER)/%.c=$(OBJS_FOLDER)/%.o)
@@ -36,7 +40,7 @@ PREREQUISITES := $(wildcard $(PREREQUISITES_FOLDER)/*.c)
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $(BIN_FOLDER)/$@ $^ -lSDL2 -lSDL2_ttf
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $(BIN_FOLDER)/$@ $^ -lSDL2 -lSDL2_ttf -lSDL2_image
 
 $(OBJS_FOLDER)/%.o: $(SRCS_FOLDER)/%.c | $(OBJS_FOLDER)
 	$(CC) $(CFLAGS) -c $< -o $@ -MMD -MF $(@:.o=.d)
@@ -55,4 +59,4 @@ fclean: clean
 re: fclean all
 
 test: all
-	$(BIN_FOLDER)/$(TARGET) grille
+	$(BIN_FOLDER)/$(TARGET).exe grille

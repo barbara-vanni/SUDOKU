@@ -2,29 +2,29 @@
 #include "strsplit.h"
 #include <stdio.h>
 
-int solver(sudoku *sudoku_tab)
+int solver(sudoku *sudoku_tab, int grid[9][9], int count)
 {
     int x = 0;
     int y = 0;
 
-    if (case_vide(sudoku_tab->grid, &x, &y) == FALSE)
+    if (case_vide(grid, &x, &y) == FALSE)
     {
-        return TRUE;
+        return count+1;
     }
 
     for (int n = 0; n < 9; n++)
     {
-        if (test_chiffre(sudoku_tab->range[n], sudoku_tab->grid, x, y) == TRUE)
+        if (test_chiffre(sudoku_tab->range[n], grid, x, y) == TRUE)
         {
-           sudoku_tab->grid[x][y] = sudoku_tab->range[n];
+            grid[x][y] = sudoku_tab->range[n];
 
-            if (solver(sudoku_tab) == TRUE)
+            if ((count = solver(sudoku_tab, grid, count)) > 1)
             {
-                return TRUE;
+                return count;
             }
 
-            sudoku_tab->grid[x][y] = 0;
+            grid[x][y] = 0;
         }
     }
-    return FALSE;
+    return count;
 }
