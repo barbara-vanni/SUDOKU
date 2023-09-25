@@ -21,7 +21,6 @@ Projet réalisé en parallèle avec **[Anthony Yrles](https://github.com/anthony
 
 [Flame](Assets/Flamme%201.png)
 
-
 ----------
 
 #### 🍰 Contributing    
