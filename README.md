@@ -1,7 +1,7 @@
 
 # <p align="center">SOLVEUR SUDOKU en C</p>
   
-**Objectif **: créer un solveur de sudoku en 3 semaines 
+**Objectif**: créer un solveur de sudoku en 3 semaines 
 
 Projet réalisé en parallèle avec **[Anthony Yrles](https://github.com/anthony-yrles)** qui apprend en même temps que moi les rouages du dévellopeur. Voici son [sudoku](https://github.com/anthony-yrles/Sudoku_en_C)
 
