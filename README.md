@@ -21,17 +21,17 @@ Projet réalisé en parallèle avec **[Anthony Yrles](https://github.com/anthony
 
 <p align="center"><img src="Assets/bouton start flame.png" width=30% height=30%></p>
 
-<p align="center"> ### Générer une grille vide </p>
+### <p align="center">Générer une grille vide </p>
 
-<p align="center"><img src="Assets/CE 1.png" width=30% height=30%></p>
+<p align="center"><img src="Assets/CE 1.png" width=60% height=60%></p>
 
-<p align="center"> ### Choisir son niveau de difficulté </p>
+### <p align="center"> Choisir son niveau de difficulté </p>
 
-<p align="center"><img src="Assets/CE 2.png" width=30% height=30%></p>
+<p align="center"><img src="Assets/CE 2.png" width=60% height=60%></p>
 
-<p align="center"> ### let's the game begin </p>
+### <p align="center">Let's the game begin </p>
 
-<p align="center"><img src="Assets/CE 3.png" width=30% height=30%></p>
+<p align="center"><img src="Assets/CE 3.png" width=60% height=60%></p>
 
 ----------
 
