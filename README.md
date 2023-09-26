@@ -19,7 +19,19 @@ Projet réalisé en parallèle avec **[Anthony Yrles](https://github.com/anthony
 
 ## :ninja: : Cosmetique
 
-<p align="center"><img src="Assets/Flamme%201.png" width=50% height=50%></p>
+<p align="center"><img src="Assets/bouton start flame.png" width=30% height=30%></p>
+
+<p align="center"> ### Générer une grille vide </p>
+
+<p align="center"><img src="Assets/CE 1.png" width=30% height=30%></p>
+
+<p align="center"> ### Choisir son niveau de difficulté </p>
+
+<p align="center"><img src="Assets/CE 2.png" width=30% height=30%></p>
+
+<p align="center"> ### let's the game begin </p>
+
+<p align="center"><img src="Assets/CE 3.png" width=30% height=30%></p>
 
 ----------
 
